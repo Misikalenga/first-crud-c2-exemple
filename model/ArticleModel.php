@@ -1,6 +1,11 @@
 <?php
 
 
+/**
+ * @param PDO $con
+ * @param array $postDatas
+ * @return bool
+ */
 function addArticle(PDO $con, array $postDatas): bool
 {
     // vérification des champs obligatoires
@@ -86,7 +91,7 @@ function getArticlesPublic(PDO $connection): array
 /**
  * @param string $text
  * @return string|null
- * pour éviter de couper les mots
+ * Pour éviter de couper les mots
  */
 function cutText(string $text): ?string
 {

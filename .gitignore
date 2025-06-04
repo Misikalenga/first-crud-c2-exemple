@@ -1,0 +1,7 @@
+.idea
+*.DS_Store
+# protection du fichier de configuration de production
+config-prod.php
+# protection du fichier de configuration de tests
+config-test.php
+

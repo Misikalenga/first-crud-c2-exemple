@@ -98,7 +98,7 @@ function cutText(string $text): ?string
     // position du dernier espace
     $spacePlace = strrpos($text," ");
     // on coupe le texte de 0 jusqu'au dernier espace
-    $text = substr($text,20,$spacePlace);
+    $text = substr($text,0,$spacePlace);
     // si on a du texte, on le renvoie
     if(strlen($text)>0) return $text;
     // envoi null si pas / plus de texte

@@ -13,10 +13,6 @@ function addArticle(PDO $con, array $postDatas): bool
                 $postDatas['article_title'],
                 $postDatas['article_text']
     )) return false;
-    // comme utilisation d'un champ de formulaire
-    // pour passer l'id de la personne qui poste
-    // On vérifie que c'est bien la personne connectée qui poste
-    if($postDatas['user_iduser']!=$_SESSION['iduser']) return false;
 
     // préparation de la requête
     $sql="
@@ -58,8 +54,36 @@ function addArticle(PDO $con, array $postDatas): bool
 /**
  * @param PDO $connection
  * @return array
- * Récupération des articles pour la partie publique
+ * Récupération des articles pour la partie privée
  */
+function getArticlesPrivate(PDO $connection): array
+{
+
+    $sql = "
+    SELECT a.`idarticle`, a.`article_title`, LEFT(a.`article_text`,300) AS article_text, a.`article_date_created`, a.`article_date_published`, a.`article_is_published`,
+              u.`iduser`, u.`user_login`, u.`user_name`
+        FROM article a
+        INNER JOIN user u
+            ON u.`iduser` = a.`user_iduser`
+         # AND a.`idarticle`=200
+    ORDER BY a.`article_date_created` DESC,
+             a.`article_date_published` DESC
+             ;
+    ;
+    ";
+
+    $prepare = $connection->prepare($sql);
+
+    try{
+        $prepare->execute();
+        $result = $prepare->fetchAll();
+        $prepare->closeCursor();
+        return $result;
+    }catch(Exception $e){
+        die($e->getMessage());
+    }
+}
+
 function getArticlesPublic(PDO $connection): array
 {
 
@@ -83,6 +107,18 @@ function getArticlesPublic(PDO $connection): array
         $result = $prepare->fetchAll();
         $prepare->closeCursor();
         return $result;
+    }catch(Exception $e){
+        die($e->getMessage());
+    }
+}
+
+function deleteArticleByID(PDO $connection, int $id): bool
+{
+    $request = $connection->prepare("DELETE FROM `article` WHERE `idarticle`=?");
+    try {
+        $request->execute([$id]);
+        return true;
+
     }catch(Exception $e){
         die($e->getMessage());
     }

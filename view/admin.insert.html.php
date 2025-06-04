@@ -1,5 +1,5 @@
 <?php
-# view/admin.html.php
+# view/admin.insert.html.php
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -7,7 +7,7 @@
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>MVC Create Read C2 | Administration</title>
+    <title>MVC Create Read C2 | Administration : insertion</title>
     <meta name="description" content="MVC Create Read C2 | Administration">
     <meta name="keywords" content="">
 
@@ -66,21 +66,19 @@
             <div class="container">
                 <div class="row d-flex justify-content-center text-center">
                     <div class="col-lg-8">
-                        <h1>MVC Create Read C2 | Administration</h1>
-
+                        <h1>MVC Create Read C2 | Administration : Insertion</h1>
+                        <p class="mb-0">Création d'un nouvel article</p>
                     </div>
                 </div>
-
             </div>
         </div>
 
 </main>
 <div class="container">
-
     <div class="row">
 
         <div class="col-lg-12">
-            <h4><a href="?p=insert">Création d'un nouvel article</a></h4>
+            <h4><a href="?p=admin">Retour à l'administration</a></h4>
 
             <!-- Blog Posts Section -->
             <section id="blog-posts" class="blog-posts section">
@@ -98,55 +96,37 @@
                             <?php
                             endif;
                             ?>
+                            <form action="" method="post" class="php-email-form" data-aos="fade-up" data-aos-delay="200">
+                                <div class="row gy-4">
 
+                                    <div class="col-md-12">
+                                        <input type="text" name="article_title" class="form-control" placeholder="votre titre" required>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <textarea name="article_text" class="form-control" placeholder="votre texte" required></textarea>
+                                    </div>
+
+
+
+                                    <div class="col-md-6 ">
+                                        <input type="checkbox"
+                                               id="public"
+                                               class="form-check-input" name="article_is_published" value="1" > Publié ?
+                                    </div>
+                                    <div class="col-md-6 ">
+                                       Date de publication <input type="datetime-local" class="form-control" name="article_date_published" value="<?=date("Y-m-d\TH:i")?>" >
+
+                                    </div>
+<input type="hidden" name="user_iduser" value="<?=$_SESSION['iduser']?>">
+                                    <div class="col-md-6 ">
+                                        <input type="submit" value="Insérer">
+                                    </div>
+
+                                </div>
+                            </form>
+                        </div><!-- End Contact Form -->
                         <div class="col-12">
-                            <?php
-                            if(empty($articles)):
-                            ?>
-                            <h3>Pas encore d'article à gérer</h3>
-                            <?php
-                            else:
-                                $nbArticles = count($articles);
-                                $pluriel = $nbArticles>1?"s":"";
-                            ?>
-                            <h3>Nous avons <?=$nbArticles?> article<?=$pluriel?></h3>
-                            <table class="table">
-                                <thead>
-                                <tr>
-                                    <th>idarticle</th>
-                                    <th>article_title</th>
-                                    <th>article_text</th>
-                                    <th>article_date_created</th>
-                                    <th>article_date_published</th>
-                                    <th>article_is_published</th>
-                                    <th>user_login</th>
-                                    <th>Modifier</th>
-                                    <th>Supprimer</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <?php
-                                foreach($articles as $article):
-                                ?>
-                                <tr>
-                                    <td><?=$article['idarticle']?></td>
-                                    <td><?=$article['article_title']?></td>
-                                    <td><?=$article['article_text']?></td>
-                                    <td><?=$article['article_date_created']?></td>
-                                    <td><?=$article['article_date_published']?></td>
-                                    <td><?=$article['article_is_published']?></td>
-                                    <td><?=$article['user_login']?></td>
-                                    <td><img src="img/update.png" alt="update article" /></td>
-                                    <td><img src="img/delete.png" onclick="deleteArticleByID(<?=$article['idarticle']?>);" alt="delete article" /></td>
-                                </tr>
-                                <?php
-                                endforeach;
-                                ?>
-                                </tbody>
-                            </table>
-                            <?php
-                            endif;
-                            ?>
                         </div>
                     </div>
                 </div>
@@ -186,16 +166,9 @@
 
 <!-- Main JS File -->
 <script src="assets/js/main.js"></script>
-<script>
-    /*
-    Script pour rediriger vers suppression
-    */
-    function deleteArticleByID(id){
-        if(confirm("Voulez-vous vraiment supprimer l'article dont l'id est "+id+" ?")){
-            window.location.href= "?p=delete&articleId="+id;
-        }
-    }
-</script>
+
+
+
 </body>
 
 </html>
